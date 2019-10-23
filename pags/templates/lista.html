@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Páginas{% endblock %}
+{% block content %}
+{% include 'includes/menu.html' %}
+<main role="main">
+  <div class="container mb-4">
+    {% for page in object_list %}
+      <div class="row mt-3">
+        <div class="col-md-9 mx-auto">
+          <h2 class="mb-4">{{page.titulo}}</h2>
+          <div>
+            <p>{{page.contenido|striptags|safe|truncatechars:"200"}}</p>
+            <p><a href="{% url 'pags:detalle' page.id %}">Leer más</a>
+              {% if request.user.is_staff %}
+                | <a href="{% url 'pags:editar' page.id %}">Editar</a>
+                | <a href="{% url 'pags:borrar' page.id %}">Borrar</a>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</main>
+{% endblock %}
